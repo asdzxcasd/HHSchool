@@ -37,7 +37,8 @@ def solve_fast(num):
 
 
 def solve_simple(num):
-    text = ''.join(map(str, range(1, num + 1)))
+    text = ''.join(map(str, range(1, pow(10, len(str(num))) + 1)))
+    # text = ''.join(map(str, range(1, num + 1)))
     return text.find(str(num)) + 1  # indexing starts from 1
 
 
@@ -46,24 +47,41 @@ def process_input():
         print(solve_simple(int(line)))
 
 
-def compare_solutions(max_num):
+def compare_solutions(solver1, solver2, max_num):
     ok = True
     for num in range(1, max_num):
-        solution_simple = solve_simple(num)
-        solution_fast = solve_fast(num)
-        if solution_simple != solution_fast:
+        answer1 = solver1(num)
+        answer2 = solver2(num)
+        if answer1 != answer2:
             print("Solutions differ!")
-            print(num, solution_simple, solution_fast)
+            print(num, answer1, answer2)
             ok = False
             break
     if ok:
         print("Success")
 
 
+def run_tests(solver):
+    def test(number, expected_answer):
+        received_answer = solver(number)
+        if (received_answer != expected_answer):
+            print('Test failed!')
+            print('number: {}, expected: {}, received {}'.format(number, expected_answer, received_answer))
+    test(1, 1)
+    test(0, 11)
+    test(90, 170)
+    test(991, 188)
+    test(9100, 189)
+    test(6789, 6)
+    test(111, 12)
+
+
 def main():
     # process_input()
-    compare_solutions(100)
+    # compare_solutions(solve_simple, solve_fast, 100)
     # compare_solutions(10000)
+    run_tests(solve_simple)
+    run_tests(solve_fast)
 
 
 if __name__ == "__main__":
