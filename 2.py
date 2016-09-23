@@ -2,8 +2,18 @@ import sys
 import math
 
 
+def index_from_pos(pos):
+    index = 0
+    for i in range(1, len(pos)):
+        index += i * (pow(10, i) - pow(10, i - 1))
+    index += len(pos) * (int(pos) - pow(10, len(pos) - 1))
+    return index + 1  # indexing starts from 1
+
+
 def solve_fast(num):
-    for ln in range(1, len(num) + 1):  # length of solution cannot exceed length of num
+    if num == '0' * len(num):
+        return index_from_pos('1' + num) + 1  # start from second digit of 100...0
+    for ln in range(1, len(num) + 1):  # length of solution cannot exceed length of num, except of all zeros
         # select split point
         min_index = math.inf
         for s in range(0, ln):
@@ -24,20 +34,14 @@ def solve_fast(num):
                 accum += str(counter)
                 counter += 1
             if accum[:len(num)] == num:
-                # compute index in string from pos
-                index = 0
-                for i in range(1, ln):
-                    index += i * (pow(10, i) - pow(10, i - 1))
-                index += ln * (int(pos) - pow(10, ln - 1))
-                index -= s
+                index = index_from_pos(pos) - s
                 min_index = min(min_index, index)
         if min_index < math.inf:
-            return min_index + 1  # indexing starts from 1
+            return min_index
 
 
 def solve_simple(num):
     text = ''.join(map(str, range(1, pow(10, len(num)) + 1)))
-    # text = ''.join(map(str, range(1, int(num) + 1)))
     return text.find(num) + 1  # indexing starts from 1
 
 
@@ -70,18 +74,25 @@ def run_tests(solver):
     test('0', 11)
     test('02', 31)
     test('00', 191)
+    test('000', 2891)
     test('90', 170)
     test('991', 188)
     test('9100', 189)
     test('6789', 6)
     test('111', 12)
-
+    test('99', index_from_pos('89') + 1)
+    test('999', index_from_pos('899') + 1)
+    test('99999', index_from_pos('89999') + 1)
+    test('99999999999999999999999999999999999999999999999999', index_from_pos('89999999999999999999999999999999999999999999999999') + 1)
+    test('00000000000000000000000000000000000000000000000000', index_from_pos('100000000000000000000000000000000000000000000000000') + 1)
+    test('00000000000000000000000000000000000000000000000000', 4988888888888888888888888888888888888888888888888891)
+    test('12345678910111213141516171819202122232425262728293', 1)
 
 def main():
     # process_input()
     # compare_solutions(solve_simple, solve_fast, 100)
     # compare_solutions('10000')
-    run_tests(solve_simple)
+    # run_tests(solve_simple)
     run_tests(solve_fast)
 
 
