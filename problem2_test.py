@@ -73,18 +73,7 @@ def test_sequence(solver, max_pos, max_len):
         print('Test sequence: success')
 
 
-import time
-
-def test_performance():
-    start = time.time()
-    for i in range(1000):
-        solve_fast('9' * 50)
-    end = time.time()
-    print(end - start)
-
-
 def main():
-    # test_performance()
     run_tests(solve_simple, use_big_tests=False)
     run_tests(solve_fast, use_big_tests=True)
     compare_solutions(solve_simple, solve_fast, 1000)
