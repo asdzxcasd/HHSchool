@@ -41,7 +41,7 @@ def solve_fast(num):
 
 
 def process_input():
-    for line in sys.stdin.readlines():
+    for line in sys.stdin.read().splitlines():
         print(solve_fast(line))
 
 
