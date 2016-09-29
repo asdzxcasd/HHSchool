@@ -1,5 +1,4 @@
 import sys
-import math
 
 
 def index_from_pos(pos):
@@ -15,7 +14,7 @@ def solve_fast(num):
         return index_from_pos('1' + num) + 1  # start from second digit of 100...0
     for ln in range(1, len(num) + 1):  # length of solution cannot exceed length of num, except of all zeros
         # select split point
-        min_index = math.inf
+        min_index = float('inf')
         for s in range(0, ln):
             tail = num[:s]
             head = num[s:ln]
@@ -36,7 +35,7 @@ def solve_fast(num):
             if accum[:len(num)] == num:
                 index = index_from_pos(pos) - s
                 min_index = min(min_index, index)
-        if min_index < math.inf:
+        if min_index < float('inf'):
             return min_index
 
 
